@@ -17,8 +17,8 @@ export default class Words extends Component{
     constructor(props){
         super(props);
         this.state={
-            current: null,
-            count: 0,
+            current: this.props.currentList,
+            count: Words_list.find({listname: this.props.currentList}).count(),
             wordId: null,
         }
     }
@@ -54,12 +54,7 @@ export default class Words extends Component{
                 window.speechSynthesis.speak(ru_voice[i]);
             }
     }
-    setFind = (List)=> {
-        return (Words_list.find({listname: List}).fetch());
-    };
-    setList = (text,listName)=>{
-        Meteor.call('word.translate',text,listName);
-    };
+
 
     addWord(event){
         event.preventDefault();
@@ -79,16 +74,12 @@ export default class Words extends Component{
            else {
                this.updateWordlist(count+1);
            }
-        }, 10);
+        }, 5);
     }
 
     updateWordlist = (value) => {
         this.setState({ count: value});
-        console.log(this.state.count);
-
     };
-
-
 
     printWord_list(){
 
@@ -98,20 +89,15 @@ export default class Words extends Component{
                 count: Words_list.find({listname: this.props.currentList}).count(),
             });
         }
-        if (!this.state.count){
-
-            this.setState({count: Words_list.find({listname: this.props.currentList}).count()}
-            );
-        }
-        console.log('current', this.state.current);
         return(
             <div>
-                {Words_list.find({listname: this.props.currentList}).fetch().map((list)=>(
+                {Words_list.find({listname: this.state.current}).fetch().map((list)=>(
                     <span>
                     <List_w
                         key={list._id}
                         list={list}
                         updateWordlist={this.updateWordlist}
+
                     />
                     </span>
                 ))}

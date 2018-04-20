@@ -50,7 +50,7 @@ Meteor.methods({
     'words.remove'(listId){
         check(listId,String);
         const list = Words_list.find({listname: listId}).fetch();
-        for (let i =0; i<list.length;i++){
+        for (let i = 0; i < list.length; i++){
             Meteor.call("word.remove",list[i]._id);
         }
     }
