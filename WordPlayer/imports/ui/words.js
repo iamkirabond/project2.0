@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
-
+import { ButtonToolbar } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import { FormGroup } from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
 import {Words_list} from '../api/words_list.js';
-
 import List_w from './list_w.js';
 import Parent from "./parent";
 import PlayLists from "./playLists";
 
-const propListName = String;
 
 
 
@@ -21,6 +22,10 @@ export default class Words extends Component{
             count: Words_list.find({listname: this.props.currentList}).count(),
             wordId: null,
         }
+    }
+
+    stopPlay(event){
+        window.speechSynthesis.cancel();
     }
 
     playWords(event){
@@ -57,48 +62,53 @@ export default class Words extends Component{
 
 
     addWord(event){
+
         event.preventDefault();
         const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
+        if (text.length > 0) {
+            Meteor.call('word.translate', text, this.state.current);
 
-        Meteor.call('word.translate',text,this.state.current);
-
-        ReactDOM.findDOMNode(this.refs.textInput).value = '';
-        this.updateWait(this.state.count);
+            ReactDOM.findDOMNode(this.refs.textInput).value = '';
+            this.updateWait(this.state.count);
+        }
     }
 
     updateWait(count){
         setTimeout(() => {
-           if(count == Words_list.find({listname: this.state.current}).count()){
+           if(count === Words_list.find({listname: this.state.current}).count()){
                this.updateWait(count);
            }
            else {
                this.updateWordlist(count+1);
            }
-        }, 5);
+        }, 1);
     }
 
     updateWordlist = (value) => {
+
         this.setState({ count: value});
+
     };
 
     printWord_list(){
 
-        if(!this.state.current){
+        if(this.state.current != this.props.currentList){
             this.setState({
                 current: this.props.currentList,
                 count: Words_list.find({listname: this.props.currentList}).count(),
             });
         }
+
         return(
             <div>
                 {Words_list.find({listname: this.state.current}).fetch().map((list)=>(
                     <span>
-                    <List_w
-                        key={list._id}
-                        list={list}
-                        updateWordlist={this.updateWordlist}
+                        <List_w
+                            key={list._id}
+                            list={list}
+                            updateWordlist={this.updateWordlist}
 
-                    />
+                        />
                     </span>
                 ))}
             </div>
@@ -109,26 +119,39 @@ export default class Words extends Component{
             if(this.props.renderWords){
                 return (<div>
 
-                    <form onSubmit={this.addWord.bind(this)}>
-                        <input type="text"
-                               ref="textInput" />
+                    <Form inline>
+                        <FormGroup controlId="formInlineName">
+                            <FormControl type="text" placeholder="Enter the word" ref = "textInput"/>
+                        </FormGroup>
+
                         <Button
-                            bsStyle="primary"
+                            type = "submit"
                             onClick={
                                 this.addWord.bind(this)
                             }>
                             Add</Button>
+                    </Form>
+                    <form>
+                    {this.printWord_list()}
                     </form>
-                    <ul>
-                        {this.printWord_list()}
-                    </ul>
-                    <Button
-                        bsStyle="primary"
-                        bsSize="large"
-                        onClick={this.playWords.bind(this)}
-                    >Play</Button>
 
-                    <Button  bsStyle="primary" onClick={()=>{this.props.updateWords(false)}}>Back</Button>
+
+                    <ButtonToolbar>
+                        <Button
+                            bsStyle="primary"
+                            bsSize="large"
+                            onClick={this.playWords.bind(this)}
+                        >Play</Button>
+                        <Button
+                            bsStyle="primary"
+                            bsSize="large"
+                            onClick={this.stopPlay.bind(this)}
+                        >Stop</Button>
+
+                        <Button  bsStyle="primary"
+                                 onClick={()=>{this.props.updateWords(false)}}
+                        >Back</Button>
+                    </ButtonToolbar>
                 </div>);
 
             }

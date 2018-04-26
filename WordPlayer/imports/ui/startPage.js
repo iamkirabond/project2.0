@@ -24,14 +24,14 @@ export default class StartPage extends Component{
         return(
             <div className="container">
                 <header>
-                    <PageHeader>WordPlayer</PageHeader>
+                    <PageHeader>Word Player</PageHeader>
                 </header>
-                <ul>
-                    <Button bsStyle="primary" onClick={this.goFastplay}>fastplay</Button>
 
-                    <Button bsStyle="primary" onClick={this.goPlaylist}>playlist</Button>
 
-                </ul>
+
+                    <Button bsStyle="primary" bsSize="large" onClick={this.goPlaylist}>Playlists</Button>
+
+
             </div>
         );
     }

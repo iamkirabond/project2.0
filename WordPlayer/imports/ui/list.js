@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { Button } from 'react-bootstrap';
 import { ButtonToolbar } from 'react-bootstrap';
-
+import { ListGroupItem } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 
 
 export default class List extends Component {
@@ -23,28 +24,21 @@ export default class List extends Component {
 
     render(){
         return(<div>
-            <ButtonToolbar>
-            <Button  bsStyle="primary"
-                     bsSize="large"
-                     className="delete"
-                     onClick={() => {
-                     this.deleteThisList(this);
-                     this.props.updateData();}}
-                     >
-                &times;
-            </Button>
-            <Button
-                bsStyle="primary"
-                bsSize="large"
-                onClick={()=>{
-                    this.hendleEvent(this);
-                    this.props.updatePlaylist(this.props.list._id);
-                }}>
-                {this.props.list.text}
 
-            </Button>
+                <ListGroup>
 
-            </ButtonToolbar>
+                    <ListGroupItem onClick={()=>{
+                        this.hendleEvent(this);
+                        this.props.updatePlaylist(this.props.list._id);
+                    }}>
+                        {this.props.list.text}</ListGroupItem>
+                    <ListGroupItem onClick={() => {
+                        this.deleteThisList(this);
+                        this.props.updateData();}}>
+                        Delete list</ListGroupItem>
+                </ListGroup>
+
+
         </div>)
     }
 

@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Button } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-
+import { Form } from 'react-bootstrap';
+import { FormGroup } from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
 import { Playlists } from '../api/play_lists.js';
 import List from './list.js';
 
@@ -28,6 +30,7 @@ export default class PlayLists extends Component{
     };
 
     updatePlaylist = (value) =>{
+        console.log(value);
         this.setState({ list: value});
         this.props.updateCurrentList(value);
     };
@@ -35,9 +38,19 @@ export default class PlayLists extends Component{
     goCreateNewList(event){
         event.preventDefault();
         const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
-        Meteor.call('playlists.insert', text);
-        ReactDOM.findDOMNode(this.refs.textInput).value = '';
-        this.setState({count: this.state.count+1})
+        if(text.length) {
+            let name = Playlists.find({text: text}).fetch();
+
+            if (name.length == 0){
+                Meteor.call('playlists.insert', text);
+                ReactDOM.findDOMNode(this.refs.textInput).value = '';
+                this.setState({count: this.state.count + 1});
+            }
+            else{
+                alert('That name is already in use!');
+            }
+
+        }
     }
 
 
@@ -45,10 +58,19 @@ export default class PlayLists extends Component{
     if(!this.props.renderWords) {
         return (
             <div>
-                <form onSubmit={this.goCreateNewList.bind(this)}>
-                    <input type="text" ref="textInput"/>
-                    <Button bsStyle="primary" onClick={this.goCreateNewList.bind(this)}>Create</Button>
-                </form>
+                <Form inline>
+                    <FormGroup controlId="formInlineName">
+                        <FormControl type="text" placeholder="Enter playlist name" ref = "textInput"/>
+                    </FormGroup>{' '}
+
+                    <Button
+                        type = "submit"
+                        onClick={
+                            this.goCreateNewList.bind(this)
+                        }>
+                        Create</Button>
+                </Form>
+                <div>
                 {Playlists.find().fetch().map((list) => (
                     <div>
                         <List key={list._id} list={list}
@@ -57,13 +79,16 @@ export default class PlayLists extends Component{
                         />
                     </div>
                 ))}
+                </div>
 
-                <Button bsStyle="primary" onClick={this.goBack}>Main</Button>
+                    <Button bsStyle="primary" onClick={this.goBack}>Main</Button>
             </div>
         );
     }
     else{
-        return(<div></div>)
+        return(<div>
+
+        </div>)
     }
     }
 }
