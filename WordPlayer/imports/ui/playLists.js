@@ -39,7 +39,7 @@ export default class PlayLists extends Component{
         event.preventDefault();
         const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
         if(text.length) {
-            let name = Playlists.find({text: text}).fetch();
+            let name = Playlists.find({word: text}).fetch();
 
             if (name.length == 0){
                 Meteor.call('playlists.insert', text);

@@ -9,6 +9,7 @@ import {Words_list} from '../api/words_list.js';
 import List_w from './list_w.js';
 import Parent from "./parent";
 import PlayLists from "./playLists";
+import {Playlists} from "../api/play_lists";
 
 
 
@@ -66,10 +67,14 @@ export default class Words extends Component{
         event.preventDefault();
         const text = ReactDOM.findDOMNode(this.refs.textInput).value.trim();
         if (text.length > 0) {
-            Meteor.call('word.translate', text, this.state.current);
+            let name = Words_list.find({word: text}).fetch();
 
-            ReactDOM.findDOMNode(this.refs.textInput).value = '';
-            this.updateWait(this.state.count);
+            if (name.length == 0) {
+                Meteor.call('word.translate', text, this.state.current);
+
+                ReactDOM.findDOMNode(this.refs.textInput).value = '';
+                this.updateWait(this.state.count);
+            }
         }
     }
 
