@@ -5,6 +5,8 @@ import { ListGroupItem } from 'react-bootstrap';
 import { ListGroup } from 'react-bootstrap';
 
 
+const st = { maxWidth: 400, margin: '0 auto 10px' };
+
 export default class List extends Component {
 
     deleteThisList(){
@@ -23,21 +25,28 @@ export default class List extends Component {
     }
 
     render(){
-        return(<div>
-
-                <ListGroup>
-
-                    <ListGroupItem onClick={()=>{
+        return(<div style={st}>
+            <ButtonToolbar>
+                <Button  bsStyle="success"
+                         bsSize="large"
+                        onClick={()=>{
                         this.hendleEvent(this);
                         this.props.updatePlaylist(this.props.list._id);
-                    }}>
-                        {this.props.list.text}</ListGroupItem>
-                    <ListGroupItem onClick={() => {
-                        this.deleteThisList(this);
-                        this.props.updateData();}}>
-                        Delete list</ListGroupItem>
-                </ListGroup>
+                        }}
+                >
+                    <b> {this.props.list.text}</b>
+                </Button>
+                <Button  bsStyle="danger"
+                         bsSize="large"
+                         onClick={() => {
+                         this.deleteThisList(this);
+                         this.props.updateData();
+                         }}
+                >
+                    <strong><i>Delete list</i></strong>
+                </Button>
 
+            </ButtonToolbar>
 
         </div>)
     }

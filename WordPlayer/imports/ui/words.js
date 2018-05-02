@@ -13,7 +13,8 @@ import {Playlists} from "../api/play_lists";
 
 
 
-
+const st = {maxWidth: 400, margin: '0 auto 10px'};
+const blok= {margin: '15px'};
 export default class Words extends Component{
 
     constructor(props){
@@ -51,6 +52,7 @@ export default class Words extends Component{
         for(let i = 0; i < eng_text.length; i++){
             eng_voice[eng_voice.length] = new SpeechSynthesisUtterance(eng_text[i]);
             ru_voice[ru_voice.length] = new SpeechSynthesisUtterance(ru_text[i]);
+
         }
 
         for(let j = 0; j < n_repeats; j++)
@@ -122,7 +124,9 @@ export default class Words extends Component{
 
     render(){
             if(this.props.renderWords){
-                return (<div>
+                return (
+                    <div style={blok}>
+                    <div style={st}>
 
                     <Form inline>
                         <FormGroup controlId="formInlineName">
@@ -134,30 +138,31 @@ export default class Words extends Component{
                             onClick={
                                 this.addWord.bind(this)
                             }>
-                            Add</Button>
+                            <strong><i>Add</i></strong></Button>
                     </Form>
                     <form>
-                    {this.printWord_list()}
+                        <b>{this.printWord_list()}</b>
                     </form>
 
 
                     <ButtonToolbar>
                         <Button
-                            bsStyle="primary"
+                            bsStyle="success"
                             bsSize="large"
                             onClick={this.playWords.bind(this)}
-                        >Play</Button>
+                        ><strong><i>Play</i></strong></Button>
                         <Button
-                            bsStyle="primary"
+                            bsStyle="info"
                             bsSize="large"
                             onClick={this.stopPlay.bind(this)}
-                        >Stop</Button>
+                        ><strong><i>Stop</i></strong></Button>
 
                         <Button  bsStyle="primary"
                                  onClick={()=>{this.props.updateWords(false)}}
-                        >Back</Button>
+                        ><strong><i>Back</i></strong></Button>
                     </ButtonToolbar>
-                </div>);
+                </div>
+                    </div>);
 
             }
             else{

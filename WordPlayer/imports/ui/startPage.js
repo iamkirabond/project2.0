@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Button } from 'react-bootstrap';
 import {PageHeader} from 'react-bootstrap';
 
+const st = {maxWidth: 400, margin: '0 auto 10px'};
 
 export default class StartPage extends Component{
 
@@ -22,16 +23,14 @@ export default class StartPage extends Component{
 
     render(){
         return(
-            <div className="container">
-                <header>
-                    <PageHeader>Word Player</PageHeader>
-                </header>
+            <div>
+                <div className="container" align = "center" >
+                    <header>
+                        <PageHeader>Word Player</PageHeader>
+                    </header>
+                    <Button bsStyle="primary" bsSize="large"  onClick={this.goPlaylist}><strong><i>Playlists</i></strong></Button>
 
-
-
-                    <Button bsStyle="primary" bsSize="large" onClick={this.goPlaylist}>Playlists</Button>
-
-
+            </div>
             </div>
         );
     }

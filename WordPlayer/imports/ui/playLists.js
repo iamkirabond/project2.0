@@ -9,7 +9,8 @@ import { Playlists } from '../api/play_lists.js';
 import List from './list.js';
 
 
-
+const st = {maxWidth: 400, margin: '0 auto 10px'};
+const blok= {margin: '15px'};
 
 export default class PlayLists extends Component{
 
@@ -57,8 +58,9 @@ export default class PlayLists extends Component{
     render() {
     if(!this.props.renderWords) {
         return (
-            <div>
-                <Form inline>
+            <div style = {blok}>
+            <div style={st}>
+                <Form inline style ={st}>
                     <FormGroup controlId="formInlineName">
                         <FormControl type="text" placeholder="Enter playlist name" ref = "textInput"/>
                     </FormGroup>{' '}
@@ -68,11 +70,11 @@ export default class PlayLists extends Component{
                         onClick={
                             this.goCreateNewList.bind(this)
                         }>
-                        Create</Button>
+                        <strong><i>Create</i></strong></Button>
                 </Form>
-                <div>
-                {Playlists.find().fetch().map((list) => (
-                    <div>
+                <div style ={st}>
+                    {Playlists.find().fetch().map((list) => (
+                    <div style ={st}>
                         <List key={list._id} list={list}
                               updatePlaylist={this.updatePlaylist}
                               updateData={this.updateData}
@@ -81,7 +83,8 @@ export default class PlayLists extends Component{
                 ))}
                 </div>
 
-                    <Button bsStyle="primary" onClick={this.goBack}>Main</Button>
+                <Button bsStyle="primary" onClick={this.goBack}><strong><i>Main</i></strong></Button>
+            </div>
             </div>
         );
     }
