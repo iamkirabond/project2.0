@@ -139,6 +139,7 @@ export default class Words extends Component{
                                 this.addWord.bind(this)
                             }>
                             <strong><i>Add</i></strong></Button>
+
                     </Form>
                     <form>
                         <b>{this.printWord_list()}</b>

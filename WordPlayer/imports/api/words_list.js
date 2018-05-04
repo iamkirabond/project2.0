@@ -18,6 +18,7 @@ Meteor.methods({
             createdAt: new Date(),
             trans: translated,
             listname: list,
+            repeats: 1,
         });
         console.log('inserted word ', word);
         console.log(Words_list.find().fetch());
@@ -54,5 +55,6 @@ Meteor.methods({
             Meteor.call("word.remove",list[i]._id);
         }
     }
+
 
 });

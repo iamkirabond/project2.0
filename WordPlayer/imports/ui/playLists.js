@@ -63,7 +63,7 @@ export default class PlayLists extends Component{
                 <Form inline style ={st}>
                     <FormGroup controlId="formInlineName">
                         <FormControl type="text" placeholder="Enter playlist name" ref = "textInput"/>
-                    </FormGroup>{' '}
+                    {' '}
 
                     <Button
                         type = "submit"
@@ -71,6 +71,7 @@ export default class PlayLists extends Component{
                             this.goCreateNewList.bind(this)
                         }>
                         <strong><i>Create</i></strong></Button>
+                    </FormGroup>
                 </Form>
                 <div style ={st}>
                     {Playlists.find().fetch().map((list) => (
