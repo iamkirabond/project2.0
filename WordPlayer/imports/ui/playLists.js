@@ -31,7 +31,6 @@ export default class PlayLists extends Component{
     };
 
     updatePlaylist = (value) =>{
-        console.log(value);
         this.setState({ list: value});
         this.props.updateCurrentList(value);
     };

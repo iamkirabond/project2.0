@@ -17,15 +17,12 @@ export default class List_w extends Component {
         Meteor.call('word.remove',id);
 
     }
-    handleChange(){
-        console.log( Words_list.find({word: this.props.list.word}).fetch());
-        console.log(this.props.list);
-    }
     handleRepeats(number){
-
         console.log(number);
-        console.log( Words_list.find({_id: this.props.list._id}).fetch());
-        Words_list.update({_id: this.props.list._id}, {repeat: number});
+        Words_list.update({_id: this.props.list._id}, { $set: {repeats: number}});
+        console.log( Words_list.find().fetch());
+
+
     }
 
     render(){
@@ -37,18 +34,12 @@ export default class List_w extends Component {
                         title={this.props.list.word}
                         bsSize="large"
                         noCaret
-
                     >
-                        <FormControl
-                            type="text"
-                            placeholder="Type to filter..."
-                            onChange={this.handleChange()}
-                        />
-                        <MenuItem eventKey="1" ref='textInput' onClick={this.handleRepeats()}>1</MenuItem>
-                        <MenuItem eventKey="2" onClick={this.handleRepeats}>2</MenuItem>
-                        <MenuItem eventKey="3" onClick={this.handleRepeats.bind(this)}>3</MenuItem>
-                        <MenuItem eventKey="4" onClick={this.handleRepeats.bind(this)}>4</MenuItem>
-                        <MenuItem eventKey="5" onClick={this.handleRepeats.bind(this)}>5</MenuItem>
+                        <MenuItem eventKey="1" onClick={()=>{this.handleRepeats(1) }}>1</MenuItem>
+                        <MenuItem eventKey="2" onClick={()=>{this.handleRepeats(2) }}>2</MenuItem>
+                        <MenuItem eventKey="3" onClick={()=>{this.handleRepeats(3) }}>3</MenuItem>
+                        <MenuItem eventKey="4" onClick={()=>{this.handleRepeats(4) }}>4</MenuItem>
+                        <MenuItem eventKey="5" onClick={()=>{this.handleRepeats(5) }}>5</MenuItem>
                     </DropdownButton>
 
                     <Button
@@ -65,8 +56,6 @@ export default class List_w extends Component {
                              }}>
                         &times;
                     </Button>
-
-
                 </ButtonToolbar>
 
             </form>)

@@ -21,7 +21,7 @@ Meteor.methods({
             repeats: 1,
         });
         console.log('inserted word ', word);
-        console.log(Words_list.find().fetch());
+        console.log(Words_list.find({word: word}).fetch());
     },
 
     'word.remove'(listId){
@@ -49,6 +49,7 @@ Meteor.methods({
     },
 
     'words.remove'(listId){
+        console.log('removimg ', listId);
         check(listId,String);
         const list = Words_list.find({listname: listId}).fetch();
         for (let i = 0; i < list.length; i++){

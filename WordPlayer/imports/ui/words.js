@@ -38,7 +38,7 @@ export default class Words extends Component{
         let ru_text = [];
         let n_repeats = 1;
 
-        for(let i = 0; i < list.length;i++){
+        for(let i = 0; i < list.length; i++){
             eng_text.push(list[i].word);
             ru_text.push(list[i].trans);
         }
