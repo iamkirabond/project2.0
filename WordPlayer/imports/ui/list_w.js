@@ -40,6 +40,8 @@ export default class List_w extends Component {
                         <MenuItem eventKey="3" onClick={()=>{this.handleRepeats(3) }}>3</MenuItem>
                         <MenuItem eventKey="4" onClick={()=>{this.handleRepeats(4) }}>4</MenuItem>
                         <MenuItem eventKey="5" onClick={()=>{this.handleRepeats(5) }}>5</MenuItem>
+                        <MenuItem eventKey="6" onClick={()=>{this.handleRepeats(6) }}>6</MenuItem>
+                        <MenuItem eventKey="7" onClick={()=>{this.handleRepeats(7) }}>7</MenuItem>
                     </DropdownButton>
 
                     <Button
