@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
+import { MenuItem } from 'react-bootstrap';
+
 import { ButtonToolbar } from 'react-bootstrap';
 import { Overlay } from 'react-bootstrap';
 import { Tooltip } from 'react-bootstrap';
@@ -40,8 +43,8 @@ export default class Words extends Component{
         return ReactDOM.findDOMNode(this.target);
     }
 
-    playWords(event){
-        event.preventDefault();
+    playWords(numb){
+    
         let list = Words_list.find({listname: this.props.currentList}).fetch();
         window.speechSynthesis.cancel();
         let eng_text = [];
@@ -55,23 +58,31 @@ export default class Words extends Component{
             n_repeats.push(list[i].repeats);
         }
         let mxi = Math.max.apply(null, n_repeats);
-
+	
         const eng_voice = [];
         const ru_voice = [];
 
         if(!main_repeat)
             main_repeat = 1;
+	if(numb == 1){
+		for(let j = 0; j < mxi; j++) {
+		    for (let i = 0; i < eng_text.length; i++) {
 
-        for(let j = 0; j < mxi; j++) {
-            for (let i = 0; i < eng_text.length; i++) {
-
-                if(n_repeats[i] > j) {
-                    eng_voice[eng_voice.length] = new SpeechSynthesisUtterance(eng_text[i]);
-                    ru_voice[ru_voice.length] = new SpeechSynthesisUtterance(ru_text[i]);
-                }
-            }
-        }
-
+		        if(n_repeats[i] > j) {
+		            eng_voice[eng_voice.length] = new SpeechSynthesisUtterance(eng_text[i]);
+		            ru_voice[ru_voice.length] = new SpeechSynthesisUtterance(ru_text[i]);
+		        }
+		    }
+		}
+	}
+	if(numb == 2){
+		for (let i = 0; i < eng_text.length; i++) {
+			for(let j = 0; j < n_repeats[i]; j++){
+		            eng_voice[eng_voice.length] = new SpeechSynthesisUtterance(eng_text[i]);
+		            ru_voice[ru_voice.length] = new SpeechSynthesisUtterance(ru_text[i]);
+		        }
+		}
+	}
         for(let j = 0; j < main_repeat; j++)
             for (let i = 0; i < eng_voice.length; i++) {
                 eng_voice[i].lang = 'en-US';
@@ -79,7 +90,6 @@ export default class Words extends Component{
                 window.speechSynthesis.speak(ru_voice[i]);
             }
     }
-
 
     addWord(event){
 
@@ -153,8 +163,9 @@ export default class Words extends Component{
                 return (
 
                     <div style={blok}>
-                        <div style={{ margin:'15px auto 10px 75%'}}>
+                        <div style={{ margin:'15px 50px 10px', float: "right"}}>
                             <Button
+                                bsStyle="success"
                                 ref={button => {
                                     this.target = button;
                                 }}
@@ -188,13 +199,22 @@ export default class Words extends Component{
                         <b>{this.printWord_list()}</b>
                     </form>
 
-
                     <ButtonToolbar >
-                        <Button
-                            bsStyle="success"
-                            bsSize="large"
-                            onClick={this.playWords.bind(this)}
-                        ><strong><i>Play</i></strong></Button>
+			<Dropdown id = "1">
+                            <Dropdown.Toggle bsStyle="success"> 
+				<strong><i>PlayStyles</i></strong>
+			    </Dropdown.Toggle>
+                            <Dropdown.Menu>
+				<MenuItem eventKey="1"
+					  onClick = {this.playWords.bind(this, 1)}
+				>PlayStyle#1
+				</MenuItem>
+                            	<MenuItem eventKey="2"
+					onClick = {this.playWords.bind(this, 2)}
+				>PlayStyle#2</MenuItem>
+			     </Dropdown.Menu>
+                         </Dropdown>
+       
                         <Button
                             bsStyle="info"
                             bsSize="small"

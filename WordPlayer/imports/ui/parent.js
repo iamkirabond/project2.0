@@ -16,6 +16,7 @@ export default class Parent extends Component{
     }
 
     updateWords = (state)=>{
+	window.speechSynthesis.cancel();
         this.setState({renderWords: state});
     };
 

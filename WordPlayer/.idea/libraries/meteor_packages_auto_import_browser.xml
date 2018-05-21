@@ -196,6 +196,7 @@
       <root url="file://$USER_HOME$/.meteor/packages/webapp/1.5.0/web.browser/webapp_server.js" />
       <root url="file://$USER_HOME$/.meteor/packages/webapp/1.5.0/web.browser/webapp_tests.js" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>
