@@ -20,8 +20,10 @@ import {Playlists} from "../api/play_lists";
 
 const st = {maxWidth: 400, margin: '0 auto 10px'};
 const blok= {margin: '15px'};
+
 export default class Words extends Component{
 
+	
     constructor(props){
         super(props);
         this.getTarget = this.getTarget.bind(this);
@@ -36,7 +38,11 @@ export default class Words extends Component{
 
 
     stopPlay(event){
-        window.speechSynthesis.cancel();
+        window.speechSynthesis.pause();
+    }
+
+    resPlay(event){
+        window.speechSynthesis.resume();
     }
 
     getTarget() {
@@ -50,7 +56,7 @@ export default class Words extends Component{
         let eng_text = [];
         let ru_text = [];
         let n_repeats = [];
-        let main_repeat = 1;
+        let main_repeat = 500;
 
         for(let i = 0; i < list.length; i++){
             eng_text.push(list[i].word);
@@ -61,7 +67,7 @@ export default class Words extends Component{
 	
         const eng_voice = [];
         const ru_voice = [];
-
+	
         if(!main_repeat)
             main_repeat = 1;
 	if(numb == 1){
@@ -198,6 +204,8 @@ export default class Words extends Component{
                     <form>
                         <b>{this.printWord_list()}</b>
                     </form>
+			
+			
 
                     <ButtonToolbar >
 			<Dropdown id = "1">
@@ -219,13 +227,17 @@ export default class Words extends Component{
                             bsStyle="info"
                             bsSize="small"
                             onClick={this.stopPlay.bind(this)}
-                        ><strong><i>Stop</i></strong></Button>
+                        ><strong><i>Pause</i></strong></Button>
 
-                        <Button  bsStyle="primary"
+                        <Button  bsStyle="info"
+                                 bsSize="lg"
+                                 onClick={this.resPlay.bind(this)}
+                        ><strong><i>Resume</i></strong></Button>
+                    </ButtonToolbar>
+		<Button  bsStyle="primary"
                                  bsSize="lg"
                                  onClick={()=>{this.props.updateWords(false)}}
                         ><strong><i>Back</i></strong></Button>
-                    </ButtonToolbar>
                 </div>
                     </div>);
 
